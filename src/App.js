@@ -5,8 +5,9 @@ import Cart from "./components/Cart";
 import "./styles.css";
 import { useEffect } from "react";
 import AboutUs from "./components/AboutUs";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
+import { Routes, Route } from "react-router-dom";
+
 function App() {
 const [cart, setCart] = useState(() => {
   const savedCart = localStorage.getItem("cart");
@@ -48,23 +49,30 @@ useEffect(() => {
   };
 
   return (
-    <>
+     <>
       <Navbar cartCount={cart.length} />
-      <PlantList addToCart={addToCart} />
-      <Cart
-        cart={cart}
-        updateQuantity={updateQuantity}
-        removeFromCart={removeFromCart}
-      />
 
-        <Routes>
-        <Route path="/" element={<PlantList />} />
-        <Route path="/plants" element={<PlantList />} />
-        <Route path="/cart" element={<Cart />} />
+      <Routes>
+        <Route
+          path="/"
+          element={<PlantList addToCart={addToCart} />}
+        />
+        <Route
+          path="/plants"
+          element={<PlantList addToCart={addToCart} />}
+        />
+        <Route
+          path="/cart"
+          element={
+            <Cart
+              cart={cart}
+              updateQuantity={updateQuantity}
+              removeFromCart={removeFromCart}
+            />
+          }
+        />
         <Route path="/about" element={<AboutUs />} />
       </Routes>
-
-
     </>
   );
 }
