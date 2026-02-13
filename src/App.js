@@ -4,7 +4,9 @@ import PlantList from "./components/PlantList";
 import Cart from "./components/Cart";
 import "./styles.css";
 import { useEffect } from "react";
-
+import AboutUs from "./components/AboutUs";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
 function App() {
 const [cart, setCart] = useState(() => {
   const savedCart = localStorage.getItem("cart");
@@ -54,6 +56,15 @@ useEffect(() => {
         updateQuantity={updateQuantity}
         removeFromCart={removeFromCart}
       />
+
+        <Routes>
+        <Route path="/" element={<PlantList />} />
+        <Route path="/plants" element={<PlantList />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/about" element={<AboutUs />} />
+      </Routes>
+
+
     </>
   );
 }
