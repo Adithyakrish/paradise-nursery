@@ -1,0 +1,61 @@
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import PlantList from "./components/PlantList";
+import Cart from "./components/Cart";
+import "./styles.css";
+import { useEffect } from "react";
+
+function App() {
+const [cart, setCart] = useState(() => {
+  const savedCart = localStorage.getItem("cart");
+  return savedCart ? JSON.parse(savedCart) : [];
+});
+
+
+useEffect(() => {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}, [cart]);
+
+
+  const addToCart = (plant) => {
+    const existingItem = cart.find(item => item.id === plant.id);
+
+    if (existingItem) {
+      setCart(
+        cart.map(item =>
+          item.id === plant.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      );
+    } else {
+      setCart([...cart, { ...plant, quantity: 1 }]);
+    }
+  };
+
+  const updateQuantity = (id, qty) => {
+    setCart(
+      cart.map(item =>
+        item.id === id ? { ...item, quantity: qty } : item
+      )
+    );
+  };
+
+  const removeFromCart = (id) => {
+    setCart(cart.filter(item => item.id !== id));
+  };
+
+  return (
+    <>
+      <Navbar cartCount={cart.length} />
+      <PlantList addToCart={addToCart} />
+      <Cart
+        cart={cart}
+        updateQuantity={updateQuantity}
+        removeFromCart={removeFromCart}
+      />
+    </>
+  );
+}
+
+export default App;
